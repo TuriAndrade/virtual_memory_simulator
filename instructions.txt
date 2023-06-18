@@ -1,0 +1,8 @@
+Para compilar o programa principal, basta executar "make main" na linha de comando do diretório raíz do projeto.
+A execução do programa principal se dá da seguinte forma: ./bin/main <algorithm> <inputFile> <pageSize> <mainMemorySize>
+
+Para compilar o programa de teste, basta executar "make test" na linha de comando do diretório raíz do projeto.
+A execução do programa de teste se dá da seguinte forma: ./bin/test <testInputFile> <testOutputFile>
+
+Na pasta ./teste, há o arquivo de teste usado para analisar o desempenho do programa, chamado testConfig.txt, 
+bem como sua sáida, testOutput.csv.
