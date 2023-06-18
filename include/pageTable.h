@@ -41,7 +41,7 @@ void logMemoryAccess(unsigned long int virtualAddr,
                      unsigned long int virtualPage, unsigned long int offset,
                      char mode);
 
-void reportPageTable(struct PageTable *pageTable);
+char *reportPageTable(struct PageTable *pageTable);
 
 unsigned long int runReplacementAlgorithm(struct PageTable *pageTable);
 

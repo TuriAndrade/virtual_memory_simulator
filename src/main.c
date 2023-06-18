@@ -1,45 +1,17 @@
-#ifndef MAIN_C
-#define MAIN_C
-
-#include "argParser.h"
-#include "assert.h"
-#include "pageTable.h"
+#include "index.h"
 #include <stddef.h>
 #include <stdio.h>
 
-#ifndef VIRTUAL_MEMORY_KB
-// 2^22 KB
-#define VIRTUAL_MEMORY_KB 4194304
-#endif
-
 int main(int argc, char **argv) {
-  struct ArgParser argParser = ArgParser(argc, argv);
+  struct PageTable *pageTable = runVirutalMemorySimulator(argc, argv);
 
-  FILE *inputFile = fopen(argParser.inputFilePath, "r");
+  char *report = reportPageTable(pageTable);
 
-  errorAssert(inputFile != NULL, "Invalid input file.");
+  printf("%s", report);
 
-  unsigned long int *mainAddr =
-      malloc(argParser.mainMemoryKB * 1024 * sizeof(unsigned long int));
+  free(report);
+  destroyPageTable(pageTable);
+  free(pageTable);
 
-  for (int i = 0; i < argParser.mainMemoryKB * 1024; i++) {
-    mainAddr[i] = i;
-  }
-
-  struct PageTable pageTable =
-      PageTable(VIRTUAL_MEMORY_KB, argParser.mainMemoryKB, argParser.pageKB,
-                argParser.replacementAlg, mainAddr);
-
-  unsigned long int virtualAddr;
-  char mode;
-
-  while (fscanf(inputFile, "%lx %c", &virtualAddr, &mode) != EOF) {
-    accessMemory(&pageTable, virtualAddr, mode);
-  }
-
-  reportPageTable(&pageTable);
-
-  destroyPageTable(&pageTable);
+  return 0;
 }
-
-#endif

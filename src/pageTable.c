@@ -188,16 +188,19 @@ void logMemoryAccess(unsigned long int virtualAddr,
          mode);
 }
 
-void reportPageTable(struct PageTable *pageTable) {
-  printf("-------------- PAGE TABLE REPORT --------------\n");
-  printf("Virtual memory size: %ld KB\n", pageTable->virtualMemorySize / 1024);
-  printf("Main memory size: %ld KB\n", pageTable->mainMemorySize / 1024);
-  printf("Page size: %ld KB\n", pageTable->pageSize / 1024);
-  printf("Page replacement algorithm: %s\n", pageTable->replacementAlg);
-  printf("Number of secondary memory reads: %ld\n",
-         pageTable->readSecondaryCount);
-  printf("Number of secondary memory writes: %ld\n",
-         pageTable->writeSecondaryCount);
+char *reportPageTable(struct PageTable *pageTable) {
+  char *report = malloc(500 * sizeof(char));
+
+  sprintf(report,
+          "-------------- PAGE TABLE REPORT --------------\nVirtual "
+          "memory size: %ld KB\nMain memory size: %ld KB\nPage size: "
+          "%ld KB\nPage replacement algorithm: %s\nNumber of secondary memory "
+          "reads: %ld\nNumber of secondary memory writes: %ld\n",
+          pageTable->virtualMemorySize / 1024, pageTable->mainMemorySize / 1024,
+          pageTable->pageSize / 1024, pageTable->replacementAlg,
+          pageTable->readSecondaryCount, pageTable->writeSecondaryCount);
+
+  return report;
 }
 
 void destroyPageTable(struct PageTable *pageTable) {
